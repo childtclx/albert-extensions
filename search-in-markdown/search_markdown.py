@@ -2,7 +2,8 @@
 Synopsis: <triger> <search-string>
 """
 
-import os, sys
+import os
+import sys
 import re
 import json
 
@@ -58,15 +59,17 @@ def handleQuery(query):
     ret_items = [err_msg, ]
 
     try:
-        pp = os.popen(f"cd {MARKDOWN_FILES_DIRECTORY} && grep -rRn \"{search_str}\" ./", 'r')
+        pp = os.popen(
+            f"cd {MARKDOWN_FILES_DIRECTORY} && grep -rRn \"{search_str}\" ./", 'r')
         list_ = []
         for line in pp:
-            ret = re.match(r'^(\./)([\w-]+.md):([\d]+):(.*)', line)
+            # ret = re.match(r'^(\./)([\w-]+.md):([\d]+):(.*)', line)
+            ret = re.match(r'^(\./)([\w\/\-\+\~]+\.md):([\d]+):(.*)', line)
             # f"file: {ret.group(2)}; line: {ret.group(3)}; match: {ret.group(4)}"
             item = Item(id='', icon=ICON_PATH,
                         actions=[
                             ProcAction('Open Markdown File by Typora',
-                                       ['/opt/Typora-linux-x64/Typora', os.path.join(MARKDOWN_FILES_DIRECTORY, ret.group(2))]),
+                                       ['/usr/bin/typora', os.path.join(MARKDOWN_FILES_DIRECTORY, ret.group(2))]),
                         ],
                         text='', subtext='',
                         completion='', urgency=ItemBase.Notification)
