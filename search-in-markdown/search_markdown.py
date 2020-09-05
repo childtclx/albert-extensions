@@ -59,8 +59,10 @@ def handleQuery(query):
     ret_items = [err_msg, ]
 
     try:
+        # pp = os.popen(
+        #     f"cd {MARKDOWN_FILES_DIRECTORY} && grep -rRn \"{search_str}\" ./", 'r')
         pp = os.popen(
-            f"cd {MARKDOWN_FILES_DIRECTORY} && grep -rRn \"{search_str}\" ./", 'r')
+            f"cd {MARKDOWN_FILES_DIRECTORY} && grep \"{search_str}\" ./ -rRni --include=\"*.md\"", 'r')
         list_ = []
         for line in pp:
             # ret = re.match(r'^(\./)([\w-]+.md):([\d]+):(.*)', line)
