@@ -63,11 +63,11 @@ def handleQuery(query):
         # pp = os.popen(
         #     f"cd {MARKDOWN_FILES_DIRECTORY} && grep \"{search_str}\" ./ -rRni --include=\"*.md\"", 'r')
         pp = os.popen(
-            f"cd {MARKDOWN_FILES_DIRECTORY} && find . -iname \"*{search_str}*.md\" | grep -v '/\.'", 'r')
+            f"cd {MARKDOWN_FILES_DIRECTORY} && find . -iname \"*{search_str}*.md\" | grep -v \"/\.\" | xargs ls -lt", 'r')
         list_ = []
         for line in pp:
             # ret = re.match(r'^(\./)([\w-]+.md):([\d]+):(.*)', line)
-            ret = re.match(r'^(\.\/)(.*)/(.*.md)$', line)
+            ret = re.match(r'^(.*\.\/)(.*)/(.*.md)$', line)
             item = Item(id='', icon=ICON_PATH,
                         actions=[
                             ProcAction('Open Markdown File by Typora',
