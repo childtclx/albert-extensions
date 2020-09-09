@@ -41,7 +41,7 @@ alert tray-icon > settings > Extensions > Python > **Search in Markdowns** > ✅
 
 ## 使用
 
-输入 'smd ' （含有空格）作为触发，然后输入搜索关键字
+输入 ~~'smd '~~ 'in ' （含有空格）作为触发，然后输入搜索关键字
 
 
 

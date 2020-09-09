@@ -1,5 +1,5 @@
-"""search markdown notes module.
-Synopsis: <triger> <search-string>
+"""search files of markdown module.
+Synopsis: <triger> <search-files>
 """
 
 import os
@@ -11,14 +11,14 @@ from albertv0 import *
 
 
 __iid__ = "PythonInterface/v0.1"
-__prettyname__ = "Search in Markdowns"
-# __trigger__ = "smd "
-__trigger__ = "in "  # modify by childtclx
-__version__ = "1.1"
-__author__ = "Joseph Lin"
+__prettyname__ = "Search files Markdowns"
+__trigger__ = "smd "
+__version__ = "0.1"
+# __author__ = "Joseph Lin"
+__author__ = "childtclx"  # modify from Joseph Lin
 __dependencies__ = []
 
-ICON_PATH = iconLookup('albert')
+ICON_PATH = iconLookup('typora')
 
 
 CONFIGURATION_DIR = os.path.join(
@@ -61,22 +61,22 @@ def handleQuery(query):
 
     try:
         # pp = os.popen(
-        #     f"cd {MARKDOWN_FILES_DIRECTORY} && grep -rRn \"{search_str}\" ./", 'r')
+        #     f"cd {MARKDOWN_FILES_DIRECTORY} && grep \"{search_str}\" ./ -rRni --include=\"*.md\"", 'r')
         pp = os.popen(
-            f"cd {MARKDOWN_FILES_DIRECTORY} && grep \"{search_str}\" ./ -rRni --include=\"*.md\"", 'r')
+            f"cd {MARKDOWN_FILES_DIRECTORY} && find . -iname \"*{search_str}*.md\" | grep -v '/\.'", 'r')
         list_ = []
         for line in pp:
             # ret = re.match(r'^(\./)([\w-]+.md):([\d]+):(.*)', line)
-            ret = re.match(r'^(\./)([\w\/\-\+\~]+\.md):([\d]+):(.*)', line)
-            # f"file: {ret.group(2)}; line: {ret.group(3)}; match: {ret.group(4)}"
+            ret = re.match(r'^(\.\/)(.*)/(.*.md)$', line)
             item = Item(id='', icon=ICON_PATH,
                         actions=[
                             ProcAction('Open Markdown File by Typora',
-                                       ['/usr/bin/typora', os.path.join(MARKDOWN_FILES_DIRECTORY, ret.group(2))]),
+                                       ['/usr/bin/typora', os.path.join(MARKDOWN_FILES_DIRECTORY, ret.group(2) + '/' + ret.group(3))]),
                         ],
                         text='', subtext='',
                         completion='', urgency=ItemBase.Notification)
-            item.text = ret.group(4)
+            # item.text = ret.group(4)
+            item.text = ret.group(3)
             item.subtext = ret.group(2)
             list_.append(item)
         ret_items = list_
