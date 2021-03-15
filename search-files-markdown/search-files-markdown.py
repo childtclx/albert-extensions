@@ -63,7 +63,7 @@ def handleQuery(query):
         # pp = os.popen(
         #     f"cd {MARKDOWN_FILES_DIRECTORY} && grep \"{search_str}\" ./ -rRni --include=\"*.md\"", 'r')
         pp = os.popen(
-            f"cd {MARKDOWN_FILES_DIRECTORY} && find . -iname \"*{search_str}*.md\" | grep -v \"/\.\" | xargs ls -lt", 'r')
+            f"cd {MARKDOWN_FILES_DIRECTORY} && find . -iname \"*{search_str}*.md\" -print0 | xargs -0 ls -lt | grep -v \"/\.\"", 'r')
         list_ = []
         for line in pp:
             # ret = re.match(r'^(\./)([\w-]+.md):([\d]+):(.*)', line)
