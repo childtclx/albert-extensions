@@ -80,6 +80,7 @@ def handleQuery(query):
             item.subtext = ret.group(2)
             list_.append(item)
         ret_items = list_
+        ret_items.sort(key=lambda x: os.path.getmtime(os.path.join(MARKDOWN_FILES_DIRECTORY + x.subtext)), reverse=True)
     except Exception as err:
         warning("{!r}".format(err))
         ret_items[0].text = str(err)
